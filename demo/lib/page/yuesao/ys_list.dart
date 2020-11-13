@@ -55,6 +55,9 @@ class _YuesaoListPageState extends State<YuesaoListPage>
   /// 筛选等级
   LevelBean levelBean;
 
+  /// 筛选日期
+  String predictDay;
+
 
 
   @override
@@ -65,11 +68,11 @@ class _YuesaoListPageState extends State<YuesaoListPage>
     initData();
 
     controller =
-        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 150), vsync: this);
     animation = CurvedAnimation(
         parent: controller,
-        curve: Curves.easeInOut,
-        reverseCurve: Curves.easeOut);
+        curve: Curves.linear,
+        reverseCurve: Curves.linear);
     animation.addListener(() {
       setState(() {});
     });
@@ -143,6 +146,13 @@ class _YuesaoListPageState extends State<YuesaoListPage>
   void loadPageData() async {
     // TODO: implement _loadPageData
     super.loadPageData();
+
+    var timestamp = "";
+    if (null != predictDay && predictDay.isNotEmpty) {
+      var time = DateTime.parse(predictDay);
+      timestamp = (time.millisecondsSinceEpoch/1000).toInt().toString();
+    }
+
     XXNetwork.shared.post(params: {
       "list_order": "${this.navIndex < 3 ? this.navIndex+1 : 1}",
       "force_desc": "${this.navArray[this.navIndex]["desc"]}",
@@ -152,7 +162,8 @@ class _YuesaoListPageState extends State<YuesaoListPage>
       "page": "$page",
       "level": "${levelBean?.levelId ?? 0}",
       "year": "${yearBean?.year ?? 0}",
-      "region": "${filterProvince?.code ?? 0}"
+      "region": "${filterProvince?.code ?? 0}",
+      "predict_day": timestamp
     }).then((res) {
       var ysList = YsListBean.fromJson(res);
       var page = int.parse(ysList.page.toString());
@@ -229,9 +240,12 @@ class _YuesaoListPageState extends State<YuesaoListPage>
                   height: AdaptUI.rpx(90),
                   title: "预约时间",
                   hintText: "请选择预约时间",
-                  content: "",
+                  content: this.predictDay,
                   tapAction: (tap) => DatePicker.showDatePicker(this.context, onConfirm: (date) {
-
+                    var dateStr = date.toString().split(" ").first;
+                    setState(() {
+                      this.predictDay = dateStr;
+                    });
                   }, currentTime: DateTime.now(), locale: LocaleType.zh),
                 ),
                 YsFilterPickerRowWidget(

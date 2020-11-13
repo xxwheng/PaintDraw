@@ -39,6 +39,8 @@ dependencies:
   pull_to_refresh: ^1.6.1
   # 日期picker
   flutter_datetime_picker: ^1.4.0
+  # 日历
+  flutter_rounded_date_picker: 1.0.5
   # UI 布局尺寸
   adaptui:
     git: https://github.com/xxwheng/adaptui.git

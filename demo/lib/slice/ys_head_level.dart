@@ -18,7 +18,7 @@ class YuesaoHeadLevelWidget extends StatelessWidget {
           padding: EdgeInsets.all(AdaptUI.rpx(8)),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: Color(0xffff0000), width: 1),
+            border: Border.all(color: Color(0xffcc99cc), width: 1),
           ),
           child: Container(
             width: AdaptUI.rpx(140),
@@ -32,42 +32,42 @@ class YuesaoHeadLevelWidget extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Color(0xffff0000), width: 1),
+              border: Border.all(color: Color(0xffcc99cc), width: 1),
             ),
           ),
         ),
-        Opacity(opacity: 0.9, child: Container(
+        Opacity(opacity: 0.7, child: Container(
           margin: EdgeInsets.only(top: AdaptUI.rpx(12)),
           width: AdaptUI.rpx(12),
           height: AdaptUI.rpx(12),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color(0xffff0000),
+            color: Color(0xffcc3399),
           ),
         ),),
-        Opacity(opacity: 0.7, child: Container(
+        Opacity(opacity: 0.5, child: Container(
           margin: EdgeInsets.only(top: AdaptUI.rpx(8)),
           width: AdaptUI.rpx(10),
           height: AdaptUI.rpx(10),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color(0xffff0000),
+            color: Color(0xffcc3399),
           ),
         ),),
-        Opacity(opacity: 0.5, child: Container(
+        Opacity(opacity: 0.3, child: Container(
           margin: EdgeInsets.only(top: AdaptUI.rpx(8)),
           width: AdaptUI.rpx(8),
           height: AdaptUI.rpx(8),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color(0xffff0000),
+            color: Color(0xffcc3399),
           ),
         ),),
         Container(
           margin: EdgeInsets.only(top: AdaptUI.rpx(10)),
           child: Text(
             YsLevel.getYuesaoLevel(level),
-            style: TextStyle(fontSize: AdaptUI.rpx(28)),
+            style: TextStyle(fontSize: AdaptUI.rpx(28), fontWeight: FontWeight.w500, color: Color(0xffcc3399)),
           ),
         )
       ],
