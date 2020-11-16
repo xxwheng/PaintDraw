@@ -1,4 +1,4 @@
-import 'package:demo/page/yuesao/ys_list.dart';
+import 'package:demo/page/root/tab_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Material App Bar'),
         ),
-        body: YuesaoListPage(),
+        body: TabBarController(),
       ),
     );
   }

@@ -34,7 +34,7 @@ class XXNetwork {
 
     print("请求参数： ${params.toString()}");
     HttpUtil().post(path, params: params, resolve: (res) {
-      print("返回数据： $res");
+//      print("返回数据： $res");
       if (res["code"] == 0) {
         completer.complete(res["data"]);
       } else {

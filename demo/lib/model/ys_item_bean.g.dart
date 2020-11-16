@@ -23,7 +23,9 @@ YsItemBean _$YsItemBeanFromJson(Map<String, dynamic> json) {
     json['desc'] as String,
     json['price'] as int,
     json['service'] as int,
-  );
+  )
+    ..experience = json['experience']
+    ..market_price = json['market_price'];
 }
 
 Map<String, dynamic> _$YsItemBeanToJson(YsItemBean instance) =>
@@ -43,4 +45,6 @@ Map<String, dynamic> _$YsItemBeanToJson(YsItemBean instance) =>
       'price': instance.price,
       'desc': instance.desc,
       'service': instance.service,
+      'experience': instance.experience,
+      'market_price': instance.market_price,
     };

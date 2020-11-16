@@ -70,6 +70,16 @@ flutter:
       - images/image01.jpg
       - images/image02.jpg
       - images/image03.jpg
+      - images/bar01.png
+      - images/bar02.png
+      - images/bar03.png
+      - images/bar04.png
+      - images/bar05.png
+      - images/bar06.png
+      - images/bar07.png
+      - images/bar08.png
+      - images/bar09.png
+      - images/bar10.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -53,6 +53,12 @@ class YsItemBean extends Object {
   @JsonKey(name: "service")
   int service;
 
+  @JsonKey(name: "experience")
+  var experience;
+
+  @JsonKey(name: "market_price")
+  var market_price;
+
   YsItemBean(this.id,this.level,this.isCredit,this.cityCode,this.province,
       this.scoreComment,this.commentScore,this.certificate,this.birthday,
       this.provinceName,this.nickname,this.headPhoto,this.desc,this.price,this.service);
