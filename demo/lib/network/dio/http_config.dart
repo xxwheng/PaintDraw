@@ -14,7 +14,11 @@ class HttpConfig {
 
   static final baseUrl = getBaseUrl();
 
+  static final webUrl = getWebBaseUrl();
+
   static final path = "";
+
+
 
   static String getBaseUrl() {
     switch (env) {
@@ -31,12 +35,27 @@ class HttpConfig {
     return "";
   }
 
+  static String getWebBaseUrl() {
+    switch (env) {
+      case EnumNetConfig.dev:
+        return "http://m.dev.jjys168.com";
+        break;
+      case EnumNetConfig.tester:
+        return "http://m.t.jjys168.com";
+        break;
+      case EnumNetConfig.online:
+        return "https://m.jjys168.com";
+        break;
+    }
+    return "";
+  }
+
 
   static String getPlatform() {
     if (Platform.isIOS) {
-      return "ios";
+      return "2";//"""ios";
     } else if (Platform.isAndroid) {
-      return "android";
+      return "2";//"android";
     }
     return "unknown";
   }

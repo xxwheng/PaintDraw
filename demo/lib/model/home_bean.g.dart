@@ -94,10 +94,14 @@ Map<String, dynamic> _$YsCommentBeanToJson(YsCommentBean instance) =>
     };
 
 HomeMenuBean _$HomeMenuBeanFromJson(Map<String, dynamic> json) {
+  var thumb = json['thumb'].toString();
+  if (!thumb.contains("http")) {
+    thumb = HttpConfig.webUrl + thumb;
+  }
   return HomeMenuBean(
     json['id'],
     json['link'],
-    json['thumb'],
+    thumb,
     json['title'],
   );
 }

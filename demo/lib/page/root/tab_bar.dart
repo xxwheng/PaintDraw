@@ -2,6 +2,8 @@ import 'package:demo/page/home/page_home.dart';
 import 'package:demo/page/mine/page_mine.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/color.dart';
+
 
 class TabBarController extends StatefulWidget {
   @override

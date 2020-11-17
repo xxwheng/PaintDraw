@@ -1,13 +1,21 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+typedef IndexedMenuWidgetBuiler = Widget Function(BuildContext context, int index, double width, double height);
+
+
+// ignore: must_be_immutable
+/// 首页菜单栏
 class MenuScrollWidget extends StatefulWidget {
   final List<String> menuList;
 
-  MenuScrollWidget({Key key, this.menuList}) : super(key: key);
+  final IndexedWidgetBuilder builer;
+
+  MenuScrollWidget({Key key,  @required this.menuList, @required this.builer}) : super(key: key);
 
   @override
   _MenuScrollWidgetState createState() => _MenuScrollWidgetState();
+
 }
 
 class _MenuScrollWidgetState extends State<MenuScrollWidget> {
@@ -44,7 +52,11 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
     _controller.addListener(() {
       this.scrollDidChanged();
     });
+    readyWidgetFrame();
+  }
 
+  void readyWidgetFrame() {
+    print(widget.menuList);
     if (widget.menuList.length > _rowNums * 2) {
       /// 超出一页（两页，第二页展示全部）
       if (widget.menuList.length > _rowNums * 4) {
@@ -68,6 +80,23 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
     }
   }
 
+
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print("menu_didChangeDependencies");
+  }
+
+  @override
+  void didUpdateWidget(covariant MenuScrollWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    print("menu_didUpdateWidget");
+    readyWidgetFrame();
+  }
+
   /// 滚动
   void scrollDidChanged() {
     var rateH = _controller.offset / _screenWidth;
@@ -79,6 +108,9 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
     if (top > _sectionHeight) {
       top = _sectionHeight;
     }
+    if (this._marginTop == top) {
+      return;
+    }
     setState(() {
       this._marginTop = top;
     });
@@ -86,6 +118,8 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    print("menu_build");
     return widget.menuList == null || widget.menuList.isEmpty
         ? Container()
         : Container(
@@ -98,24 +132,17 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
                     right: 0,
                     height: this._sectionHeight,
                     child: Container(
-                      color: Colors.red,
                       height: this._sectionHeight,
                       child: PageView(
                           controller: _controller,
                           children: _menuList?.map((list) {
                                 return Wrap(
                                   children: list.asMap().keys.map((index) {
-                                    return GestureDetector(
-                                      onTapUp: (tap) {},
-                                      child: Container(
-                                        color: Colors.primaries[index],
+                                    return Container(
                                         height: _rowHeight,
                                         width: _itemWidth,
-                                        child: Center(
-                                          child: Text("$index"),
-                                        ),
-                                      ),
-                                    );
+                                        child: widget.builer(context, index),
+                                      );
                                   }).toList(),
                                 );
                               })?.toList() ??

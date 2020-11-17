@@ -1,6 +1,7 @@
 
 import 'package:adaptui/adaptui.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class UIColor {
 
@@ -8,8 +9,15 @@ class UIColor {
   
   static const Color mainColor = Color.fromRGBO(126, 27, 195, 1);
 
+  // 页面背景色f8
+  static const Color pageColor = Colors.grey;
+
   // 字体颜色
   static const Color hex333 = Color(0xff333333);
+
+  static const Color hex666 = Color(0xff666666);
+
+  static const Color hex999 = Color(0xff999999);
 
   // 分割线、下划线
   static const Color hexEEE = Color(0xffe5e5e5);

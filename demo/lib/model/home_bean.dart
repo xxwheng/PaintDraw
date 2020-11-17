@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../network/dio/http_config.dart';
 import 'ys_item_bean.dart';
 
 part 'home_bean.g.dart';
@@ -117,7 +118,7 @@ class HomeMenuBean {
   var link;
 
   @JsonKey(name: "thumb")
-  var thumb;
+  String thumb;
 
   @JsonKey(name: "title")
   var title;

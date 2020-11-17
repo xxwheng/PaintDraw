@@ -150,7 +150,7 @@ class _YuesaoListPageState extends State<YuesaoListPage>
     var timestamp = "";
     if (null != predictDay && predictDay.isNotEmpty) {
       var time = DateTime.parse(predictDay);
-      timestamp = (time.millisecondsSinceEpoch/1000).toInt().toString();
+      timestamp = (time.millisecondsSinceEpoch~/1000).toString();
     }
 
     XXNetwork.shared.post(params: {
