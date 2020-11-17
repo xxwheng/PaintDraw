@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:demo/common/color.dart';
 import 'package:demo/model/home_bean.dart';
 import 'package:demo/network/manager/xx_network.dart';
+import 'package:demo/template/home/menu_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -31,16 +32,18 @@ class _PageHomeState extends State<PageHome> {
     print(item.title);
   }
 
+  List<String> _bannerList = [];
+
   /// 加载首页数据
   void loadHomeData() async {
     XXNetwork.shared.post(params: {
       "methodName": "YuesaoHome",
     }).then((res) {
       var homeData = HomeBean.fromJson(res);
-      print(homeData.banner.length);
       setState(() {
         this.homeData = homeData;
         this._bannerLoop = true;
+        _bannerList = ["1", "1","1","1","1",];
       });
     }).catchError((err) {
     }).whenComplete(() {});
@@ -65,7 +68,11 @@ class _PageHomeState extends State<PageHome> {
             },
             onTap: bannerItemDidTap,
           ),
-        )
+        ),
+        MenuScrollWidget(
+          menuList: _bannerList,
+        ),
+        Container(height: 100, color: Colors.deepPurple,)
       ],
     );
   }

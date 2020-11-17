@@ -2,18 +2,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class MenuScrollWidget extends StatefulWidget {
-
   final List<String> menuList;
-  final Widget child;
 
-  MenuScrollWidget({Key key, this.menuList, this.child}): super(key: key);
+  MenuScrollWidget({Key key, this.menuList}) : super(key: key);
 
   @override
   _MenuScrollWidgetState createState() => _MenuScrollWidgetState();
 }
 
 class _MenuScrollWidgetState extends State<MenuScrollWidget> {
-
   /// 一行5个
   static int _rowNums = 5;
   static double _screenWidth = MediaQueryData.fromWindow(window).size.width;
@@ -22,6 +19,7 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
 
   /// 第一页数据
   List<String> firstList;
+
   /// 第二页数据
   List<String> lastList;
 
@@ -34,12 +32,14 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
 
   /// 初始高度（第一页高度）
   double _oriH = 0;
+
   /// 底部视图距离底部高度
   double _marginTop = 0;
 
   @override
   void initState() {
     super.initState();
+
     _controller = PageController();
     _controller.addListener(() {
       this.scrollDidChanged();
@@ -49,7 +49,8 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
       /// 超出一页（两页，第二页展示全部）
       if (widget.menuList.length > _rowNums * 4) {
         /// 第二页比第一页多
-        _sectionHeight = _rowHeight * ((widget.menuList.length - _rowNums * 2) / 5.0).ceil();
+        _sectionHeight =
+            _rowHeight * ((widget.menuList.length - _rowNums * 2) / 5.0).ceil();
       } else {
         _sectionHeight = _rowHeight * 2;
       }
@@ -85,48 +86,43 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: this._sectionHeight,
-            child: Container(
-              color: Colors.red,
-              height: this._sectionHeight,
-              child:
-              PageView(
-                  controller: _controller,
-                  children:
-                  _menuList?.map((list) {
-                    return Wrap(
-                      children: list.asMap().keys.map((index) {
-                        return GestureDetector(
-                          onTapUp: (tap) {
-
-                          },
-                          child: Container(
-                            color: Colors.primaries[index],
-                            height: _rowHeight,
-                            width: _itemWidth,
-                            child: Center(child: Text("$index"),),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  })?.toList() ?? null
-              ),
-            )
-        ),
-        Positioned(
-          top: _marginTop,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: widget.child,
-        )
-      ],
-    );
+    return widget.menuList == null || widget.menuList.isEmpty
+        ? Container()
+        : Container(
+            height: _marginTop,
+            child: Stack(
+              children: [
+                Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: this._sectionHeight,
+                    child: Container(
+                      color: Colors.red,
+                      height: this._sectionHeight,
+                      child: PageView(
+                          controller: _controller,
+                          children: _menuList?.map((list) {
+                                return Wrap(
+                                  children: list.asMap().keys.map((index) {
+                                    return GestureDetector(
+                                      onTapUp: (tap) {},
+                                      child: Container(
+                                        color: Colors.primaries[index],
+                                        height: _rowHeight,
+                                        width: _itemWidth,
+                                        child: Center(
+                                          child: Text("$index"),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              })?.toList() ??
+                              null),
+                    )),
+              ],
+            ),
+          );
   }
 }
