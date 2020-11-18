@@ -56,7 +56,6 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
   }
 
   void readyWidgetFrame() {
-    print(widget.menuList);
     if (widget.menuList.length > _rowNums * 2) {
       /// 超出一页（两页，第二页展示全部）
       if (widget.menuList.length > _rowNums * 4) {
@@ -66,6 +65,7 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
       } else {
         _sectionHeight = _rowHeight * 2;
       }
+
       firstList = widget.menuList.sublist(0, 10);
       lastList = widget.menuList.sublist(10);
       _menuList = [firstList, lastList];
@@ -135,13 +135,13 @@ class _MenuScrollWidgetState extends State<MenuScrollWidget> {
                       height: this._sectionHeight,
                       child: PageView(
                           controller: _controller,
-                          children: _menuList?.map((list) {
+                          children: _menuList?.asMap()?.keys?.map((section) {
                                 return Wrap(
-                                  children: list.asMap().keys.map((index) {
+                                  children: _menuList[section].asMap().keys.map((index) {
                                     return Container(
                                         height: _rowHeight,
                                         width: _itemWidth,
-                                        child: widget.builer(context, index),
+                                        child: widget.builer(context, section*_rowNums*2 + index),
                                       );
                                   }).toList(),
                                 );

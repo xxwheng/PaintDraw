@@ -28,6 +28,7 @@ class HomeLearnMoreHeaderWidget extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Text("了解更多", style: TextStyle(color: UIColor.hex999),),
+                Image.asset("images/arrow_next.png", width: AdaptUI.rpx(30),height: AdaptUI.rpx(30),)
               ],
             ),
           )

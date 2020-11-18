@@ -15,7 +15,19 @@ class HomeBean {
   @JsonKey(name: "yuesao_top")
   List<HomeTopYuesaoBean> yuesaoTopList;
 
-  HomeBean(this.banner, this.menuList, this.yuesaoTopList);
+  @JsonKey(name: "home_ad_left")
+  HomeAdBean homeAdLeftBean;
+
+  @JsonKey(name: "home_ad_right")
+  HomeAdBean homeAdRightBean;
+
+  List<HomeAdBean> adArr;
+
+  @JsonKey(name: "comment")
+  List<CommentBean> commentList;
+
+
+  HomeBean(this.banner, this.menuList, this.yuesaoTopList, this.homeAdLeftBean, this.homeAdRightBean, this.commentList);
 
   factory HomeBean.fromJson(Map<String, dynamic> json) => _$HomeBeanFromJson(json);
 
@@ -220,4 +232,40 @@ class BannerExtendBean {
   factory BannerExtendBean.fromJson(Map<String, dynamic> json) => _$BannerExtendBeanFromJson(json);
 
   Map<String, dynamic> toJson() => _$BannerExtendBeanToJson(this);
+}
+
+@JsonSerializable()
+class CommentBean {
+  @JsonKey(name: "content")
+  String content;
+
+  @JsonKey(name: "headphoto")
+  String headPhoto;
+
+  @JsonKey(name: "icon")
+  String icon;
+
+  @JsonKey(name: "nickname")
+  String nickname;
+
+  @JsonKey(name: "name")
+  String name;
+
+  @JsonKey(name: "username")
+  String username;
+
+  @JsonKey(name: "image")
+  List<String> image;
+
+  @JsonKey(name: "score")
+  var score;
+
+  @JsonKey(name: "product_days")
+  var productDays;
+
+  CommentBean(this.content, this.headPhoto, this.icon, this.nickname, this.name, this.username, this.image, this.score, this.productDays);
+
+  factory CommentBean.fromJson(Map<String, dynamic> json) => _$CommentBeanFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommentBeanToJson(this);
 }

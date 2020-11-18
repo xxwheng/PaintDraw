@@ -22,13 +22,30 @@ HomeBean _$HomeBeanFromJson(Map<String, dynamic> json) {
             ? null
             : HomeTopYuesaoBean.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-  );
+    json['home_ad_left'] == null
+        ? null
+        : HomeAdBean.fromJson(json['home_ad_left'] as Map<String, dynamic>),
+    json['home_ad_right'] == null
+        ? null
+        : HomeAdBean.fromJson(json['home_ad_right'] as Map<String, dynamic>),
+    (json['comment'] as List)
+        ?.map((e) =>
+            e == null ? null : CommentBean.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  )..adArr = (json['adArr'] as List)
+      ?.map((e) =>
+          e == null ? null : HomeAdBean.fromJson(e as Map<String, dynamic>))
+      ?.toList();
 }
 
 Map<String, dynamic> _$HomeBeanToJson(HomeBean instance) => <String, dynamic>{
       'banner': instance.banner,
       'menu': instance.menuList,
       'yuesao_top': instance.yuesaoTopList,
+      'home_ad_left': instance.homeAdLeftBean,
+      'home_ad_right': instance.homeAdRightBean,
+      'adArr': instance.adArr,
+      'comment': instance.commentList,
     };
 
 HomeAdBean _$HomeAdBeanFromJson(Map<String, dynamic> json) {
@@ -94,14 +111,10 @@ Map<String, dynamic> _$YsCommentBeanToJson(YsCommentBean instance) =>
     };
 
 HomeMenuBean _$HomeMenuBeanFromJson(Map<String, dynamic> json) {
-  var thumb = json['thumb'].toString();
-  if (!thumb.contains("http")) {
-    thumb = HttpConfig.webUrl + thumb;
-  }
   return HomeMenuBean(
     json['id'],
     json['link'],
-    thumb,
+    json['thumb'] as String,
     json['title'],
   );
 }
@@ -179,4 +192,31 @@ Map<String, dynamic> _$BannerExtendBeanToJson(BannerExtendBean instance) =>
     <String, dynamic>{
       'title': instance.title,
       'url': instance.url,
+    };
+
+CommentBean _$CommentBeanFromJson(Map<String, dynamic> json) {
+  return CommentBean(
+    json['content'] as String,
+    json['headphoto'] as String,
+    json['icon'] as String,
+    json['nickname'] as String,
+    json['name'] as String,
+    json['username'] as String,
+    (json['image'] as List)?.map((e) => e as String)?.toList(),
+    json['score'],
+    json['product_days'],
+  );
+}
+
+Map<String, dynamic> _$CommentBeanToJson(CommentBean instance) =>
+    <String, dynamic>{
+      'content': instance.content,
+      'headphoto': instance.headPhoto,
+      'icon': instance.icon,
+      'nickname': instance.nickname,
+      'name': instance.name,
+      'username': instance.username,
+      'image': instance.image,
+      'score': instance.score,
+      'product_days': instance.productDays,
     };
