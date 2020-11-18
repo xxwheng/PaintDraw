@@ -263,7 +263,10 @@ class CommentBean {
   @JsonKey(name: "product_days")
   var productDays;
 
-  CommentBean(this.content, this.headPhoto, this.icon, this.nickname, this.name, this.username, this.image, this.score, this.productDays);
+  @JsonKey(name: "create_at")
+  var createAt;
+
+  CommentBean(this.content, this.headPhoto, this.icon, this.nickname, this.name, this.username, this.image, this.score, this.productDays, this.createAt);
 
   factory CommentBean.fromJson(Map<String, dynamic> json) => _$CommentBeanFromJson(json);
 

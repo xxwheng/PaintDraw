@@ -205,6 +205,7 @@ CommentBean _$CommentBeanFromJson(Map<String, dynamic> json) {
     (json['image'] as List)?.map((e) => e as String)?.toList(),
     json['score'],
     json['product_days'],
+    json['create_at'],
   );
 }
 

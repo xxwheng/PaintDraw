@@ -1,14 +1,17 @@
 import 'package:adaptui/adaptui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:demo/common/color.dart';
+import 'package:demo/model/article_bean.dart';
 import 'package:demo/model/home_bean.dart';
 import 'package:demo/model/ys_item_bean.dart';
 import 'package:demo/network/manager/xx_network.dart';
+import 'package:demo/slice/home_comment.dart';
 import 'package:demo/slice/home_learn_more.dart';
 import 'package:demo/slice/home_ys_top.dart';
 import 'package:demo/template/home/menu_scroll.dart';
 import 'package:demo/utils/ys_level.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../common/color.dart';
@@ -23,7 +26,12 @@ class PageHome extends StatefulWidget {
 }
 
 class _PageHomeState extends State<PageHome> {
+
+  /// 首页数据
   HomeBean homeData;
+
+  /// 文章数据
+  List<ArticleBean> articleList;
 
   /// 处理flutter_swiper组件 loop为true时 初始化滑动很多次问题
   bool _bannerLoop = false;
@@ -33,6 +41,7 @@ class _PageHomeState extends State<PageHome> {
     // TODO: implement initState
     super.initState();
     loadHomeData();
+    loadArticleList();
   }
 
   /// banner点击
@@ -48,6 +57,18 @@ class _PageHomeState extends State<PageHome> {
       default:
         break;
     }
+  }
+
+  void loadArticleList() async {
+    XXNetwork.shared.post(params: {
+      "methodName":"ArticleList","size":5,
+    }).then((res) {
+      var articleList = (res["data"] as List)?.map((e) => e == null ? null : ArticleBean.fromJson(e as Map<String, dynamic>))?.toList();
+      setState(() {
+        this.articleList = articleList;
+      });
+      print(articleList.first.title);
+    });
   }
 
   /// 加载首页数据
@@ -119,7 +140,8 @@ class _PageHomeState extends State<PageHome> {
               ),
             )
           ],
-        ));
+        ),
+    );
   }
 
   @override
@@ -179,7 +201,7 @@ class _PageHomeState extends State<PageHome> {
                     [],
               ),
             ),
-            homeData?.yuesaoTopList == null || homeData.yuesaoTopList.length == 0 ? Container() : Container(
+            homeData?.yuesaoTopList == null || homeData.yuesaoTopList.length == 0 ? Offstage() : Container(
                 margin: EdgeInsets.only(top: AdaptUI.rpx(20)),
                 color: Colors.white,
                 child: Column(
@@ -209,7 +231,7 @@ class _PageHomeState extends State<PageHome> {
                     )
                   ],
                 )),
-            homeData?.commentList == null || homeData.commentList.length == 0 ? Container() : Container(
+            homeData?.commentList == null || homeData.commentList.length == 0 ? Offstage() : Container(
               margin: EdgeInsets.only(top: AdaptUI.rpx(20)),
               color: Colors.white,
               child: Column(
@@ -246,12 +268,14 @@ class _PageHomeState extends State<PageHome> {
                           )),
                       itemBuilder: (context, index) {
                         var item = homeData.commentList[index];
-                        return Container(
-                          child: Column(
-                            children: [
-
-                            ],
-                          ),
+                        return HomeCommentWidget(
+                          headPhoto: item.headPhoto,
+                          username: item.username,
+                          score: int.parse(item.score.toString()),
+                          createTime: item.createAt.toString(),
+                          serverDays: item.productDays,
+                          content: item.content,
+                          picList: item.image,
                         );
                       },
                       onTap: bannerItemDidTap,
