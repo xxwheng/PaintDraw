@@ -80,7 +80,8 @@ class _YuesaoListPageState extends State<YuesaoListPage>
             begin: -double.parse(AdaptUI.screenHeight.toString()),
             end: double.parse(AdaptUI.rpx(120).toString()))
         .animate(controller);
-    loadPageData();
+
+    onRefresh();
     loadYuesaoConfigWork();
   }
 

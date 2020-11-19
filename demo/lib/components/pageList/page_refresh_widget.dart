@@ -17,7 +17,10 @@ class PageRefreshWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return SmartRefresher(
       enablePullDown: true,
-      enablePullUp: true,
+      enablePullUp:pageDataSource.enablePullUp,
+      controller: pageDataSource.refreshController,
+      onRefresh: pageDataSource.onRefresh,
+      onLoading: pageDataSource.onLoadMore,
       header: WaterDropHeader(),
       footer: CustomFooter(
         builder: (context, mode) {
@@ -47,9 +50,6 @@ class PageRefreshWidget<T> extends StatelessWidget {
           );
         },
       ),
-      controller: pageDataSource.refreshController,
-      onRefresh: pageDataSource.onRefresh,
-      onLoading: pageDataSource.onLoadMore,
       child: ListView.builder(
         itemCount: pageDataSource.list.length,
         itemBuilder: itemBuilder,

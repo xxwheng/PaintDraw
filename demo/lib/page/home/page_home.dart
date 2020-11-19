@@ -5,6 +5,7 @@ import 'package:demo/model/article_bean.dart';
 import 'package:demo/model/home_bean.dart';
 import 'package:demo/model/ys_item_bean.dart';
 import 'package:demo/network/manager/xx_network.dart';
+import 'package:demo/slice/article_widget.dart';
 import 'package:demo/slice/home_comment.dart';
 import 'package:demo/slice/home_learn_more.dart';
 import 'package:demo/slice/home_ys_top.dart';
@@ -20,6 +21,7 @@ import '../../model/home_bean.dart';
 import '../../network/dio/http_config.dart';
 import '../../template/home/menu_scroll.dart';
 
+/// 首页-tab
 class PageHome extends StatefulWidget {
   @override
   _PageHomeState createState() => _PageHomeState();
@@ -284,6 +286,26 @@ class _PageHomeState extends State<PageHome> {
                 ],
               )
             ),
+            articleList == null || articleList.length == 0 ? Offstage() : Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(top: AdaptUI.rpx(20)),
+              padding: EdgeInsets.only(bottom: AdaptUI.rpx(40)),
+              child: Column(
+                children: [
+                  HomeLearnMoreHeaderWidget(
+                    title: "孕育知识",
+                    margin: EdgeInsets.only(top: AdaptUI.rpx(20)),
+                  ),
+                  ...articleList.map((e) {
+                    return ArticleWidget(
+                      imageUrl: e.image,
+                      title: e.title,
+                      desc: e.desc,
+                    );
+                  }).toList()
+                ],
+              ),
+            )
           ],
         ));
   }

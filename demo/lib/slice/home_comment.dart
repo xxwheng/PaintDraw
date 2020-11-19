@@ -36,13 +36,15 @@ class HomeCommentWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(username, style: TextStyle(fontSize: AdaptUI.rpx(30),),),
+                      Text(username, style: TextStyle(fontSize: AdaptUI.rpx(32),),),
                       Container(width: AdaptUI.rpx(30),),
                       ...List.generate(score, (index) {
-                        return Container(margin: EdgeInsets.only(left: 2) , width: AdaptUI.rpx(16), height: AdaptUI.rpx(16),color: Colors.red,);
+                        return  Container(margin: EdgeInsets.only(left: 2) , width: AdaptUI.rpx(26), height: AdaptUI.rpx(26),
+                          child: Image.asset( "images/ys_heart.png", fit: BoxFit.fitWidth,),
+                        );
                       }).toList(),
                       Container(
-                          margin: EdgeInsets.only(left: 2),
+                          margin: EdgeInsets.only(left: 5),
                           child: Text("$score分")
                       )
 

@@ -1,3 +1,4 @@
+import 'package:demo/page/article/page_article.dart';
 import 'package:demo/page/home/page_home.dart';
 import 'package:demo/page/mine/page_mine.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class TabBarController extends StatefulWidget {
 
 class _TabBarControllerState extends State<TabBarController> {
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   @override
   void initState() {
@@ -82,7 +83,7 @@ class _TabBarControllerState extends State<TabBarController> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          PageHome(), PageMine()
+          PageHome(), PageArticle()
         ],
       ),
       bottomNavigationBar: createTabBar(),

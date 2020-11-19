@@ -1,4 +1,22 @@
 
+
+import 'package:flutter/foundation.dart';
+
+/// 文章分类 模型
+class ArticleCategoryBean {
+  String id;
+  String title;
+  String listNo;
+  String createAt;
+
+  ArticleCategoryBean(this.id, this.title, this.listNo, this.createAt);
+
+  factory ArticleCategoryBean.fromJson(Map<String, dynamic> json) {
+    return ArticleCategoryBean(json["id"].toString(), json["title"].toString(), json["list_no"].toString(), json["create_at"].toString());
+  }
+
+}
+
 /// 文章 模型
 class ArticleBean {
   String id;
