@@ -1,6 +1,7 @@
 import 'package:demo/page/article/page_article.dart';
 import 'package:demo/page/home/page_home.dart';
 import 'package:demo/page/mine/page_mine.dart';
+import 'package:demo/page/order/page_order.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/color.dart';
@@ -43,7 +44,7 @@ class _TabBarControllerState extends State<TabBarController> {
                   offstage: alpha==1.0 ? false : true,
                   child:  GestureDetector(
                   child: ClipOval(
-                      child: Image.asset("images/image03.jpg", fit: BoxFit.cover,)
+                      child: Image.asset("", fit: BoxFit.cover,)
                   ),
                   onTapUp: (tap) {
                     print("float");
@@ -67,11 +68,14 @@ class _TabBarControllerState extends State<TabBarController> {
   BottomNavigationBar createTabBar() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Color(0xffff4450),
+      selectedItemColor: UIColor.mainColor,
       unselectedItemColor: Color(0xff9d9d9d),
+      backgroundColor: Colors.white,
       items: [
-      BottomNavigationBarItem(icon: Image.asset("images/bar01.png"), activeIcon: Image.asset("images/bar06.png"), label: "首页"),
-      BottomNavigationBarItem(icon: Image.asset("images/bar05.png"), activeIcon: Image.asset("images/bar10.png"), label: "我的"),
+        BottomNavigationBarItem(icon: Image.asset("images/tab_home_n.png"), activeIcon: Image.asset("images/tab_home_s.png"), label: "首页"),
+        BottomNavigationBarItem(icon: Image.asset("images/tab_article_n.png"), activeIcon: Image.asset("images/tab_article_s.png"), label: "文章"),
+        BottomNavigationBarItem(icon: Image.asset("images/tab_order_n.png"), activeIcon: Image.asset("images/tab_order_s.png"), label: "订单"),
+        BottomNavigationBarItem(icon: Image.asset("images/tab_mine_n.png"), activeIcon: Image.asset("images/tab_mine_s.png"), label: "我的"),
     ],
     currentIndex: _selectedIndex,
     onTap: _tabBarDidTap,);
@@ -83,7 +87,7 @@ class _TabBarControllerState extends State<TabBarController> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          PageHome(), PageArticle()
+          PageHome(), PageArticle(), PageOrder(), PageMine()
         ],
       ),
       bottomNavigationBar: createTabBar(),

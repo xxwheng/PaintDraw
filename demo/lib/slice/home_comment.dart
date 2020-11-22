@@ -1,5 +1,6 @@
 import 'package:adaptui/adaptui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:demo/common/color.dart';
 import 'package:flutter/material.dart';
 
 /// 首页 评价
@@ -57,7 +58,7 @@ class HomeCommentWidget extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(top: AdaptUI.rpx(20), right: AdaptUI.rpx(20)),
-            child: Text(content, style: TextStyle(),),
+            child: Text(content, style: TextStyle(fontSize: AdaptUI.rpx(26), color: UIColor.hex333),),
           ),
           Row(
             children: picList.asMap().keys.map((index) {

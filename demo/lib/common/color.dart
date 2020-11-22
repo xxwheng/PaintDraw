@@ -13,6 +13,7 @@ class UIColor {
   static const Color pageColor = Color(0xfff8f8f8);
 
   // 字体颜色
+
   static const Color hex333 = Color(0xff333333);
 
   static const Color hex666 = Color(0xff666666);

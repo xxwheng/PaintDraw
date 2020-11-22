@@ -18,8 +18,8 @@ class PageArticle extends StatefulWidget {
   _PageArticleState createState() => _PageArticleState();
 }
 
-class _PageArticleState extends State<PageArticle> with PageDataSource<ArticleBean> {
-
+class _PageArticleState extends State<PageArticle>
+    with PageDataSource<ArticleBean> {
   List<ArticleCategoryBean> categoryList;
 
   List<ArticleBean> articleList;
@@ -36,12 +36,14 @@ class _PageArticleState extends State<PageArticle> with PageDataSource<ArticleBe
 
   /// 获取文章分类列表
   void loadCategoryList() async {
-    XXNetwork.shared.post(params: {
-      "methodName": "ArticleCategoryList"
-    }).then((res) {
+    XXNetwork.shared
+        .post(params: {"methodName": "ArticleCategoryList"}).then((res) {
       print(res);
-      var categoryList = (res["data"] as List)?.map((e) => e == null ? null : ArticleCategoryBean.fromJson(e))?.toList();
-      _controller = TabController(length: categoryList.length, vsync: ScrollableState());
+      var categoryList = (res["data"] as List)
+          ?.map((e) => e == null ? null : ArticleCategoryBean.fromJson(e))
+          ?.toList();
+      _controller =
+          TabController(length: categoryList.length, vsync: ScrollableState());
       setState(() {
         this.categoryList = categoryList;
       });
@@ -57,53 +59,61 @@ class _PageArticleState extends State<PageArticle> with PageDataSource<ArticleBe
     XXNetwork.shared.post(params: {
       "methodName": "ArticleList",
       "category_id": categoryId
-    }).then((value) {
-
-    });
+    }).then((value) {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      child: Column(
-        children: [
-          Container(
-            height: AdaptUI.rpx(100),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(bottom: BorderSide(color: UIColor.hexEEE))
-            ),
-            child: TabBar(
-              controller: _controller,
-              isScrollable: true,
-              indicatorColor: UIColor.mainColor,
-              indicatorSize: TabBarIndicatorSize.label,
-              labelColor: UIColor.mainColor,
-              labelStyle: TextStyle(fontSize: AdaptUI.rpx(32), fontWeight: FontWeight.bold),
-              unselectedLabelColor: UIColor.hex333,
-              unselectedLabelStyle: TextStyle(fontSize: AdaptUI.rpx(28), fontWeight: FontWeight.normal),
-              tabs: categoryList?.map((e)  {
-                return Text(e.title);
-              })?.toList() ?? [],
-            ),
+    return Scaffold(
+        appBar: AppBar(
+          title: Center(
+            child: Text("家家月嫂"),
           ),
-          ArticleSearchWidget(
-            tap: (){
-              App.navigationTo(context, PageRoutes.searchArticle);
-            },
+          elevation: 0,
+        ),
+        body: Container(
+          child: Column(
+            children: [
+              Container(
+                height: AdaptUI.rpx(100),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(bottom: BorderSide(color: UIColor.hexEEE))),
+                child: TabBar(
+                  controller: _controller,
+                  isScrollable: true,
+                  indicatorColor: UIColor.mainColor,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  labelColor: UIColor.mainColor,
+                  labelStyle: TextStyle(
+                      fontSize: AdaptUI.rpx(32), fontWeight: FontWeight.bold),
+                  unselectedLabelColor: UIColor.hex333,
+                  unselectedLabelStyle: TextStyle(
+                      fontSize: AdaptUI.rpx(28), fontWeight: FontWeight.normal),
+                  tabs: categoryList?.map((e) {
+                        return Text(e.title);
+                      })?.toList() ??
+                      [],
+                ),
+              ),
+              ArticleSearchWidget(
+                tap: () {
+                  App.navigationTo(context, PageRoutes.searchArticle);
+                },
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _controller,
+                  children: categoryList?.map((e) {
+                        return ArticleTabBarView(
+                          categoryId: e.id,
+                        );
+                      })?.toList() ??
+                      [],
+                ),
+              )
+            ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _controller,
-              children: categoryList?.map((e) {
-                return ArticleTabBarView(
-                  categoryId: e.id,
-                );
-              })?.toList() ?? [],
-            ),
-          )
-        ],
-      ),
-    );
+        ));
   }
 }

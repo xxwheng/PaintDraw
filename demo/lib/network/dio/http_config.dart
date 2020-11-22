@@ -26,7 +26,7 @@ class HttpConfig {
         return "http://api.dev.jjys168.com";
         break;
       case EnumNetConfig.tester:
-        return "http://api.t.jjys168.com";
+        return "http://m.t.jjys168.com/api/";
         break;
       case EnumNetConfig.online:
         return "https://m.jjys168.com/api/";

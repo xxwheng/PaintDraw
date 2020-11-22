@@ -149,6 +149,10 @@ class _PageHomeState extends State<PageHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text("家家月嫂"),),
+          elevation: 0,
+        ),
         backgroundColor: UIColor.pageColor,
         body: ListView(
           children: [

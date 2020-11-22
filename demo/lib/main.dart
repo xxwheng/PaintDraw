@@ -1,3 +1,4 @@
+import 'package:demo/common/color.dart';
 import 'package:demo/page/root/tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
@@ -19,11 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      theme: ThemeData(primaryColor: UIColor.mainColor),
       onGenerateRoute: App.router.generator,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
+        // appBar: AppBar(
+        //   title: Text('Material App Bar'),
+        // ),
         body: TabBarController(),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:adaptui/adaptui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:demo/common/color.dart';
 import 'package:flutter/material.dart';
 
 /// 文章单项widget
@@ -49,6 +50,7 @@ class ArticleWidget extends StatelessWidget {
                         desc,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: AdaptUI.rpx(26), color: UIColor.hex666),
                       ),
                     ),
                   ],

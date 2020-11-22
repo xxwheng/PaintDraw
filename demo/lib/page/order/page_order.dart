@@ -10,6 +10,13 @@ class PageOrder extends StatefulWidget {
 class _PageOrderState extends State<PageOrder> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text("订单"),
+        ),
+        elevation: 0,
+      ),
+    );
   }
 }
