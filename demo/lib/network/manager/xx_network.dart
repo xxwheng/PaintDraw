@@ -29,12 +29,14 @@ class XXNetwork {
     params["citycode"] = "103212";
     params["_corp_id"] = "1";
     params["corp_id"] = "1";
+    params["user_id"] = 190;
+    params["token"] = "143d175130459d1de3eed26e61b1934e";
 
     Completer completer = Completer();
 
     print("请求参数： ${params.toString()}");
     HttpUtil().post(path, params: params, resolve: (res) {
-//      print("返回数据： $res");
+      print("返回数据： $res");
       if (res["code"] == 0) {
         completer.complete(res["data"]);
       } else {

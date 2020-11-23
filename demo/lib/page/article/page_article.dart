@@ -50,18 +50,6 @@ class _PageArticleState extends State<PageArticle>
     });
   }
 
-  /// 获取文章列表
-  void loadArticleList() async {
-    if (null == categoryList || categoryList.isEmpty) {
-      return;
-    }
-    String categoryId = categoryList[_controller.index].id;
-    XXNetwork.shared.post(params: {
-      "methodName": "ArticleList",
-      "category_id": categoryId
-    }).then((value) {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

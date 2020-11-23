@@ -201,6 +201,7 @@ class _YuesaoListPageState extends State<YuesaoListPage>
             child: PageRefreshWidget(
               pageDataSource: this,
               itemBuilder: (context, index) {
+                YsItemBean item = list[index];
                 return Container(
                     padding: EdgeInsets.only(left: AdaptUI.rpx(30)),
                     margin: EdgeInsets.only(
@@ -212,9 +213,17 @@ class _YuesaoListPageState extends State<YuesaoListPage>
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(AdaptUI.rpx(10))),
                     child: GestureDetector(
-                      child: CellYuesao(ysItemBean: list[index]),
+                      child: CellYuesao(
+                        headPhoto: item.headPhoto,
+                        level: item.level,
+                        nickName: item.nickname,
+                        desc: item.desc,
+                        score: "${item.scoreComment}",
+                        price: "${item.price}",
+                        service: "${item.service}",
+                      ),
                       onTapUp: (TapUpDetails detail) {},
-                    ));
+                    ),);
               },
             )),
         Positioned(

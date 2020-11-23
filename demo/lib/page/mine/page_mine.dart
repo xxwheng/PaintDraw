@@ -1,5 +1,8 @@
 import 'package:adaptui/adaptui.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:demo/common/color.dart';
+import 'package:demo/model/user_info_bean.dart';
+import 'package:demo/network/manager/xx_network.dart';
 import 'package:demo/page/root/app.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +22,15 @@ class _PageMineState extends State<PageMine> {
     Icon(Icons.privacy_tip_outlined, color: UIColor.hex666)
   ];
 
+  UserInfoBean user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadUserInfo();
+  }
+
   /// 点击
   void itemDidTapIndex(int index) {
     switch (index) {
@@ -26,6 +38,19 @@ class _PageMineState extends State<PageMine> {
         App.navigationTo(context, PageRoutes.myCollect);
         break;
     }
+  }
+
+
+  /// 个人信息
+  void loadUserInfo() async {
+    XXNetwork.shared.post(params: {
+      "methodName":"UserInfo"
+    }).then((value) {
+      UserInfoBean user = UserInfoBean.fromJson(value);
+      setState(() {
+        this.user = user;
+      });
+    });
   }
 
   @override
@@ -46,15 +71,14 @@ class _PageMineState extends State<PageMine> {
               child: Column(
                 children: [
                   ClipOval(
-                      child: Image.asset("images/image01.jpg",
-                          fit: BoxFit.cover,
+                      child: CachedNetworkImage(imageUrl: user?.headPhoto ?? "", placeholder: (context, url)=>Image.asset("images/place_head.png") , fit: BoxFit.cover,
                           width: AdaptUI.rpx(180),
                           height: AdaptUI.rpx(180))),
                   Container(
                     margin: EdgeInsets.only(top: AdaptUI.rpx(40)),
                     child: Center(
                       child: Text(
-                        "师会敏",
+                        user?.nickName ?? "未登录",
                         style: TextStyle(
                           fontSize: AdaptUI.rpx(34),
                           color: Colors.white,

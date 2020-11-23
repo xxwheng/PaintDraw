@@ -7,9 +7,16 @@ import 'package:demo/slice/ys_name_auth.dart';
 
 class CellYuesao extends StatelessWidget {
 
-  YsItemBean ysItemBean;
+  final String headPhoto;
+  final String level;
+  final String nickName;
+  final String desc;
+  final String score;
+  final String price;
+  final String service;
 
-  CellYuesao({Key key, this.ysItemBean}) : super(key: key);
+
+  CellYuesao({Key key, this.headPhoto, this.level, this.nickName, this.desc, this.score, this.price, this.service}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class CellYuesao extends StatelessWidget {
           color: Colors.white,
           child: Row(
             children: [
-              YuesaoHeadLevelWidget(headUrl: ysItemBean.headPhoto, level: ysItemBean.level,),
+              YuesaoHeadLevelWidget(headUrl: headPhoto, level: level,),
               Expanded(
                   child: Stack(
                     children: [
@@ -28,12 +35,12 @@ class CellYuesao extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            YuesaoNameAuthWidget(nickname: ysItemBean.nickname,),
+                            YuesaoNameAuthWidget(nickname: nickName,),
                             Container(
                               margin: EdgeInsets.only(top: AdaptUI.rpx(10)),
                               padding: EdgeInsets.only(right: AdaptUI.rpx(100)),
                               child: Text(
-                                ysItemBean.desc,
+                                desc,
                                 maxLines: 2,
                                 style: TextStyle(fontSize: AdaptUI.rpx(30)),
                               ),
@@ -59,7 +66,7 @@ class CellYuesao extends StatelessWidget {
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: AdaptUI.rpx(6)),
-                                child: Text("${ysItemBean.scoreComment}分",
+                                child: Text("$score分",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(color: Colors.white, fontSize: AdaptUI.rpx(18))),
                               )
@@ -75,10 +82,10 @@ class CellYuesao extends StatelessWidget {
                                 text: "￥", style: TextStyle(color: Colors.red, fontSize: AdaptUI.rpx(28))
                             ),
                             TextSpan(
-                                text: "${ysItemBean.price}", style: TextStyle(color: Colors.red, fontSize: AdaptUI.rpx(32))
+                                text: "$price", style: TextStyle(color: Colors.red, fontSize: AdaptUI.rpx(32))
                             ),
                             TextSpan(
-                                text: "/${ysItemBean.service}天", style: TextStyle(fontSize: AdaptUI.rpx(28))
+                                text: "/$service天", style: TextStyle(fontSize: AdaptUI.rpx(28))
                             ),
                           ]
                       )))
