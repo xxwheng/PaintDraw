@@ -51,15 +51,25 @@ class _YsCollectPageState extends State<YsCollectPage> {
                 labelColor: UIColor.mainColor,
                 labelStyle: TextStyle(
                     fontSize: AdaptUI.rpx(32), fontWeight: FontWeight.bold),
-                tabs: navList.map((e) => Tab(text: e,)).toList(),
+                tabs: navList
+                    .map((e) => Tab(
+                          text: e,
+                        ))
+                    .toList(),
               ),
             ),
             Expanded(
-                child: TabBarView(
-              controller: _controller,
-              children:
-                  navList.asMap().keys.map((e) => CollectYsTabView()).toList(),
-            ))
+              child: TabBarView(
+                controller: _controller,
+                children: navList
+                    .asMap()
+                    .keys
+                    .map((e) => CollectYsTabView(
+                          type: e + 1,
+                        ))
+                    .toList(),
+              ),
+            )
           ],
         ),
       ),

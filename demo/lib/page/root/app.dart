@@ -22,9 +22,13 @@ class PageRoutes {
   // 我的关注
   static String myCollect = "/page/mine/ys_collect";
 
+  /* 月嫂列表 */
+  static String ysListPage = "/page/yuesao/ys_list";
+
   static void configFluroRoutes(FluroRouter router) {
     router.define(tabBarController, handler: tabBarHandler);
     router.define(searchArticle, handler: searchArticleHandler);
     router.define(myCollect, handler: myCollectPageHandler);
+    router.define(ysListPage, handler: ysListPageHandler);
   }
 }

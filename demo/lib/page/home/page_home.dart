@@ -5,6 +5,7 @@ import 'package:demo/model/article_bean.dart';
 import 'package:demo/model/home_bean.dart';
 import 'package:demo/model/ys_item_bean.dart';
 import 'package:demo/network/manager/xx_network.dart';
+import 'package:demo/page/root/app.dart';
 import 'package:demo/slice/article_widget.dart';
 import 'package:demo/slice/home_comment.dart';
 import 'package:demo/slice/home_learn_more.dart';
@@ -55,6 +56,7 @@ class _PageHomeState extends State<PageHome> {
   void menuItemDidTap(HomeMenuBean bean) {
     switch (bean.id.toString()) {
       case "1":
+        App.navigationTo(context, PageRoutes.ysListPage);
         break;
       default:
         break;

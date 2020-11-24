@@ -29,8 +29,9 @@ class UserCollectYsInfoBean {
   String service;
   int scoreComment;
   String recommend;
+  String careType;
 
-  UserCollectYsInfoBean(this.icon, this.isCredit, this.level, this.price, this.name, this.service, this.scoreComment, this.recommend);
+  UserCollectYsInfoBean(this.icon, this.isCredit, this.level, this.price, this.name, this.service, this.scoreComment, this.recommend, this.careType);
 
   factory UserCollectYsInfoBean.fromJson(Map<String,dynamic> json) {
     return UserCollectYsInfoBean(
@@ -41,6 +42,8 @@ class UserCollectYsInfoBean {
         json['name'].toString(),
         json['service'].toString(),
         int.parse(json['score_comment'].toString()),
-        json['recommend'].toString());
+        json['recommend'].toString(),
+        json['care_type'].toString()
+    );
   }
 }

@@ -1,18 +1,18 @@
 import 'package:adaptui/adaptui.dart';
 import 'package:flutter/material.dart';
 
-/* 等级 筛选 等*/
+/* 多行 单项 筛选 */
 typedef Decoration WrapItemDecoration(int currentIndex, int selectedIndex);
 typedef void WidgetIndexBlock(int index);
 
 class YsWrapFilterWidget extends StatefulWidget {
-  List list;
-  double iwidth;
-  double iheight;
-  Color textColor;
-  EdgeInsetsGeometry margin;
-  WrapItemDecoration decoration;
-  WidgetIndexBlock itemChanged;
+  final List list;
+  final double iwidth;
+  final double iheight;
+  final Color textColor;
+  final EdgeInsetsGeometry margin;
+  final WrapItemDecoration decoration;
+  final WidgetIndexBlock itemChanged;
 
 
   YsWrapFilterWidget({Key key, this.list, this.iwidth, this.iheight, this.margin, this.textColor, this.itemChanged, this.decoration})

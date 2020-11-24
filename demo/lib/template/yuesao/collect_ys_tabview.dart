@@ -9,6 +9,12 @@ import 'package:demo/template/yuesao/cell_yuesao.dart';
 import 'package:flutter/material.dart';
 
 class CollectYsTabView extends StatefulWidget {
+
+  /// 1 月嫂   2 育婴师
+  final int type;
+
+  CollectYsTabView({Key key, @required this.type}): super(key: key);
+
   @override
   _CollectYsTabViewState createState() => _CollectYsTabViewState();
 }
@@ -30,7 +36,7 @@ class _CollectYsTabViewState extends State<CollectYsTabView>
       "methodName": "YuesaoCollectList",
       "page": this.page,
       "size": this.size,
-      "role": 1,
+      "role": widget.type,
     }).then((res) {
       var collectList = (res['data'] as List)
           ?.map((e) => e == null ? null : UserCollectBean.fromJson(e))
@@ -50,6 +56,7 @@ class _CollectYsTabViewState extends State<CollectYsTabView>
       pageDataSource: this,
       itemBuilder: (context, index) {
         UserCollectYsInfoBean item = list[index].info;
+
         return Container(
           padding: EdgeInsets.only(left: AdaptUI.rpx(30)),
           margin: EdgeInsets.only(
@@ -62,8 +69,11 @@ class _CollectYsTabViewState extends State<CollectYsTabView>
               borderRadius: BorderRadius.circular(AdaptUI.rpx(10))),
           child: GestureDetector(
             child: CellYuesao(
+              type: widget.type,
               headPhoto: item.icon,
+              isCredit: item.isCredit == 1,
               level: item.level,
+              careType: item.careType,
               nickName: item.name,
               desc: item.recommend,
               score: "${item.scoreComment}",
