@@ -7,7 +7,7 @@ import 'package:demo/slice/ys_head_level.dart';
 import 'package:demo/slice/ys_name_auth.dart';
 
 class CellYuesao extends StatelessWidget {
-  /// 1 月嫂 育婴师
+  /// 1 月嫂  2育婴师
   final int type;
   final String headPhoto;
   final bool isCredit;
@@ -70,6 +70,7 @@ class CellYuesao extends StatelessWidget {
                             child: Text(
                               desc,
                               maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: AdaptUI.rpx(30)),
                             ),
                           )

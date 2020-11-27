@@ -14,7 +14,7 @@ class TabBarController extends StatefulWidget {
 
 class _TabBarControllerState extends State<TabBarController> {
 
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
 
   @override
   void initState() {

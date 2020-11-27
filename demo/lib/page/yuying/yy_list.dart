@@ -7,6 +7,7 @@ import 'package:demo/model/year_filter_bean.dart';
 import 'package:demo/model/ys_item_bean.dart';
 import 'package:demo/model/ys_list_bean.dart';
 import 'package:demo/network/manager/xx_network.dart';
+import 'package:demo/page/root/app.dart';
 import 'package:demo/slice/ys_filter_picker.dart';
 import 'package:demo/slice/ys_wrap_filter.dart';
 import 'package:demo/slice/ys_wrap_multi_filter.dart';
@@ -40,6 +41,7 @@ class _YuyingListPageState extends State<YuyingListPage>
 
   /// 年龄数组
   List<YsFilterYearBean> yearFilterArray;
+
   /// 筛选年龄
   YsFilterYearBean yearBean;
 
@@ -56,7 +58,10 @@ class _YuyingListPageState extends State<YuyingListPage>
   /// 筛选日期
   String predictDay;
 
-  final double filterMaxH = AdaptUI.screenHeight-AdaptUI.safeATop-AdaptUI.rpx(120)-AdaptUI.rpx(50);
+  final double filterMaxH = AdaptUI.screenHeight -
+      AdaptUI.safeATop -
+      AdaptUI.rpx(120) -
+      AdaptUI.rpx(50);
   double filterTop;
 
   @override
@@ -71,8 +76,6 @@ class _YuyingListPageState extends State<YuyingListPage>
     onRefresh();
     loadYuyingConfigWork();
   }
-
-
 
   void initData() {
     filterProvince = ProvinceBean("", "");
@@ -91,10 +94,7 @@ class _YuyingListPageState extends State<YuyingListPage>
         .map((e) => YuyingFilterCareTypeBean(e, careTypeTitleArr[e]))
         .toList();
     careTypeBean = careTypeFilterArray[0];
-    setState(() {
-
-    });
-
+    setState(() {});
   }
 
   /// 菜单栏 icon
@@ -140,7 +140,7 @@ class _YuyingListPageState extends State<YuyingListPage>
     if (this.navIndex == index) {
       if (index < this.navArray.length - 1 && index > 0) {
         this.navArray[index]["desc"] =
-        this.navArray[index]["desc"] == "1" ? "0" : "1";
+            this.navArray[index]["desc"] == "1" ? "0" : "1";
       } else {
         return;
       }
@@ -153,32 +153,10 @@ class _YuyingListPageState extends State<YuyingListPage>
       setState(() {});
     } else {
       showFilter ? filterTapDimiss() : filterShow();
-
     }
   }
 
-  // 筛选窗弹出
-  void filterShow() {
-    this.filterTop = AdaptUI.rpx(120);
-    setState(() {
-      this.showFilter = true;
-    });
-  }
-
-  // 筛选确认
-  void filterOkDidTap() {
-    // 处理筛选参数
-    this.onRefresh();
-    this.filterTapDimiss();
-  }
-
-  // 筛选窗隐藏
-  void filterTapDimiss() {
-    this.filterTop = -filterMaxH;
-    setState(() {
-      this.showFilter = false;
-    });
-  }
+  
 
   @override
   void loadPageData() async {
@@ -224,17 +202,82 @@ class _YuyingListPageState extends State<YuyingListPage>
     });
   }
 
-  /// 等级筛选， 多选的
-  void filterLevelIndexTap(List<int> indexArr) {
-    this.levelBeanList =  indexArr.map((e) => this.configBean.levelYusaoArr[e]).toList();
+  // 筛选窗弹出
+  void filterShow() {
+    this.filterTop = AdaptUI.rpx(120);
+    setState(() {
+      this.showFilter = true;
+    });
+  }
 
+  // 筛选确认
+  void filterOkDidTap() {
+    // 处理筛选参数
+    this.onRefresh();
+    this.filterTapDimiss();
+  }
+
+  // 筛选窗隐藏
+  void filterTapDimiss() {
+    this.filterTop = -filterMaxH;
+    setState(() {
+      this.showFilter = false;
+    });
+  }
+
+  /* 预约时间筛选 */
+  void filterDatePickerDidTap() {
+    DatePicker.showDatePicker(this.context, onConfirm: (date) {
+      var dateStr = date.toString().split(" ").first;
+      setState(() {
+        this.predictDay = dateStr;
+      });
+    }, currentTime: DateTime.now(), locale: LocaleType.zh);
+  }
+
+  /* 等级筛选， 多选的  */
+  void filterLevelIndexTap(List<int> indexArr) {
+    this.levelBeanList =
+        indexArr.map((e) => this.configBean.levelYuyingArr[e]).toList();
+  }
+
+  /* 育婴师分类筛选 */
+  void filterCareTypeIndexTap(int index) {
+    this.careTypeBean = this.careTypeFilterArray[index];
+  }
+
+  /* 年龄筛选 */
+  void filterYearIndexTap(int index) {
+    this.yearBean = this.yearFilterArray[index];
+  }
+  
+  /* 籍贯选择 */
+  void filterRegionPickerDidTap() {
+    SinglePicker(
+        context: this.context,
+        list: configBean.provinceYuyingArr
+            .map((e) => e.cityName)
+            .toList(),
+        itemChanged: (index) {
+          print(configBean.provinceYuyingArr[index].code);
+          setState(() {
+            this.filterProvince =
+            configBean.provinceYuyingArr[index];
+          });
+        }).show();
+  }
+  
+  
+  /* 点击进入育婴师详情 */
+  void ysItemDidTap(YsItemBean item) {
+    App.navigationTo(context, PageRoutes.ysDetailPage);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("找育婴师"),
+        title: Text("找育婴师"),
         elevation: 0,
       ),
       body: Stack(
@@ -260,9 +303,11 @@ class _YuyingListPageState extends State<YuyingListPage>
                         borderRadius: BorderRadius.circular(AdaptUI.rpx(10))),
                     child: GestureDetector(
                       child: CellYuesao(
+                        type: 2,
                         isCredit: item.isCredit.toString() == '1',
                         headPhoto: item.headPhoto,
                         level: item.level,
+                        careType: item.careType,
                         nickName: item.nickname,
                         desc: item.desc,
                         score: "${item.scoreComment}",
@@ -270,20 +315,22 @@ class _YuyingListPageState extends State<YuyingListPage>
                         service: "${item.service}",
                         showCancel: false,
                       ),
-                      onTapUp: (TapUpDetails detail) {},
+                      onTapUp: (TapUpDetails detail) => this.ysItemDidTap(item),
                     ),
                   );
                 },
               )),
-          showFilter ? Positioned(
-            top: AdaptUI.rpx(120),
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              color: Color(0x55000000),
-            ),
-          ) : Container(),
+          showFilter
+              ? Positioned(
+                  top: AdaptUI.rpx(120),
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    color: Color(0x55000000),
+                  ),
+                )
+              : Container(),
           AnimatedPositioned(
             duration: Duration(milliseconds: 250),
             top: filterTop,
@@ -297,15 +344,8 @@ class _YuyingListPageState extends State<YuyingListPage>
                     title: "预约时间",
                     hintText: "请选择预约时间",
                     content: this.predictDay,
-                    tapAction: (tap) => DatePicker.showDatePicker(this.context,
-                        onConfirm: (date) {
-                          var dateStr = date.toString().split(" ").first;
-                          setState(() {
-                            this.predictDay = dateStr;
-                          });
-                        }, currentTime: DateTime.now(), locale: LocaleType.zh),
+                    tapAction: (tap) => this.filterDatePickerDidTap(),
                   ),
-
                   Container(
                     padding: EdgeInsets.only(
                         left: AdaptUI.rpx(30),
@@ -316,7 +356,7 @@ class _YuyingListPageState extends State<YuyingListPage>
                         color: Colors.white,
                         border: Border(
                             bottom:
-                            BorderSide(color: UIColor.hexEEE, width: 0.5))),
+                                BorderSide(color: UIColor.hexEEE, width: 0.5))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -324,7 +364,7 @@ class _YuyingListPageState extends State<YuyingListPage>
                         YsWrapMultiFilterWidget(
                           list: this
                               .configBean
-                              ?.levelYusaoArr
+                              ?.levelYuyingArr
                               ?.map((e) => e.title)
                               ?.toList(),
                           iwidth: AdaptUI.rpx(158),
@@ -355,7 +395,45 @@ class _YuyingListPageState extends State<YuyingListPage>
                         color: Colors.white,
                         border: Border(
                             bottom:
-                            BorderSide(color: UIColor.hexEEE, width: 0.5))),
+                                BorderSide(color: UIColor.hexEEE, width: 0.5))),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("育婴师分类"),
+                        YsWrapFilterWidget(
+                          list: this
+                              .careTypeFilterArray
+                              ?.map((e) => e.title)
+                              ?.toList(),
+                          iwidth: AdaptUI.rpx(158),
+                          iheight: AdaptUI.rpx(70),
+                          margin: EdgeInsets.only(
+                              top: AdaptUI.rpx(20), right: AdaptUI.rpx(20)),
+                          textColor: UIColor.mainColor,
+                          itemChanged: this.filterCareTypeIndexTap,
+                          decoration: (currentIndex, selectedIndex) {
+                            return BoxDecoration(
+                                color: currentIndex == selectedIndex
+                                    ? UIColor.mainColor
+                                    : Colors.white,
+                                border: Border.all(
+                                    width: 1, color: UIColor.mainColor));
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                        left: AdaptUI.rpx(30),
+                        top: AdaptUI.rpx(20),
+                        bottom: AdaptUI.rpx(20)),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                            bottom:
+                                BorderSide(color: UIColor.hexEEE, width: 0.5))),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -370,9 +448,7 @@ class _YuyingListPageState extends State<YuyingListPage>
                           margin: EdgeInsets.only(
                               top: AdaptUI.rpx(20), right: AdaptUI.rpx(20)),
                           textColor: UIColor.mainColor,
-                          itemChanged: (index) {
-                            this.yearBean = this.yearFilterArray[index];
-                          },
+                          itemChanged: this.filterYearIndexTap,
                           decoration: (currentIndex, selectedIndex) {
                             return BoxDecoration(
                                 color: currentIndex == selectedIndex
@@ -390,18 +466,7 @@ class _YuyingListPageState extends State<YuyingListPage>
                     title: "籍贯",
                     hintText: "请选择籍贯",
                     content: this.filterProvince?.cityName ?? "",
-                    tapAction: (tap) => SinglePicker(
-                        context: this.context,
-                        list: configBean.provinceYuesaoArr
-                            .map((e) => e.cityName)
-                            .toList(),
-                        itemChanged: (index) {
-                          print(configBean.provinceYuesaoArr[index].code);
-                          setState(() {
-                            this.filterProvince =
-                            configBean.provinceYuesaoArr[index];
-                          });
-                        }).show(),
+                    tapAction: (tap) => this.filterRegionPickerDidTap(),
                   ),
                   Container(
                     height: AdaptUI.rpx(150),
@@ -421,9 +486,9 @@ class _YuyingListPageState extends State<YuyingListPage>
                             height: AdaptUI.rpx(80),
                             decoration: BoxDecoration(
                                 border:
-                                Border.all(color: Colors.grey, width: 1),
+                                    Border.all(color: Colors.grey, width: 1),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(5))),
                             child: Center(child: Text("取消")),
                           ),
                           onTapUp: (tap) => this.filterTapDimiss(),
@@ -435,12 +500,12 @@ class _YuyingListPageState extends State<YuyingListPage>
                             decoration: BoxDecoration(
                                 color: UIColor.mainColor,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(5))),
                             child: Center(
                                 child: Text(
-                                  "确定",
-                                  style: TextStyle(color: Colors.white),
-                                )),
+                              "确定",
+                              style: TextStyle(color: Colors.white),
+                            )),
                           ),
                           onTapUp: (tap) => this.filterOkDidTap(),
                         ),
@@ -462,30 +527,30 @@ class _YuyingListPageState extends State<YuyingListPage>
               width: AdaptUI.screenWidth,
               child: Row(
                   children: navArray.asMap().keys.map((index) {
-                    return Expanded(
-                      child: InkWell(
-                        child: Container(
-                          height: AdaptUI.rpx(120),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                navArray[index]["title"],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: AdaptUI.rpx(32),
-                                    color: navIndex == index
-                                        ? UIColor.mainColor
-                                        : UIColor.hex333),
-                              ),
-                              afterIcon(index),
-                            ],
+                return Expanded(
+                  child: InkWell(
+                    child: Container(
+                      height: AdaptUI.rpx(120),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            navArray[index]["title"],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: AdaptUI.rpx(32),
+                                color: navIndex == index
+                                    ? UIColor.mainColor
+                                    : UIColor.hex333),
                           ),
-                        ),
-                        onTap: () => this.navItemDidTap(index),
+                          afterIcon(index),
+                        ],
                       ),
-                    );
-                  }).toList()),
+                    ),
+                    onTap: () => this.navItemDidTap(index),
+                  ),
+                );
+              }).toList()),
             ),
           ),
         ],

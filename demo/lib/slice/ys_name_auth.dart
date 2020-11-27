@@ -15,21 +15,27 @@ class YuesaoNameAuthWidget extends StatelessWidget {
     return Row(
       children: [
         Text(
-          nickname,
+          nickname + "  ",
           style: TextStyle(
               fontSize: AdaptUI.rpx(32)),
         ),
-        isCredit ? Row(children: [
-          Container(
-              padding: EdgeInsets.only(left: AdaptUI.rpx(20)),
-              width: AdaptUI.rpx(50),
-              height: AdaptUI.rpx(50),
-              child: Image(image: AssetImage("images/ys_auth.png"), fit: BoxFit.fitWidth,)
-          ),
-          Text("家家母婴学院认证", style: TextStyle(color: UIColor.mainColor, fontSize: AdaptUI.rpx(24)),),
-        ],) : Offstage()
-
+        isCredit ? YsAuthWidget() : Offstage()
       ],
     );
+  }
+}
+
+class YsAuthWidget extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Container(
+          width: AdaptUI.rpx(40),
+          height: AdaptUI.rpx(40),
+          child: Image(image: AssetImage("images/ys_auth.png"), fit: BoxFit.fitWidth,)
+      ),
+      Text("家家母婴学院认证", style: TextStyle(color: UIColor.mainColor, fontSize: AdaptUI.rpx(24)),),
+    ],);
   }
 }

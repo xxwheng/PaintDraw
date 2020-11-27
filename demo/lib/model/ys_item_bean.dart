@@ -59,9 +59,12 @@ class YsItemBean extends Object {
   @JsonKey(name: "market_price")
   var market_price;
 
+  @JsonKey(name: "care_type")
+  String careType;
+
   YsItemBean(this.id,this.level,this.isCredit,this.cityCode,this.province,
       this.scoreComment,this.commentScore,this.certificate,this.birthday,
-      this.provinceName,this.nickname,this.headPhoto,this.desc,this.price,this.service);
+      this.provinceName,this.nickname,this.headPhoto,this.desc,this.price,this.service,this.careType);
 
   factory YsItemBean.fromJson(Map<String, dynamic> json) => _$YsItemBeanFromJson(json);
 

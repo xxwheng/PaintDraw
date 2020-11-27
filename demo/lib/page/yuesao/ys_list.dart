@@ -7,6 +7,7 @@ import 'package:demo/model/year_filter_bean.dart';
 import 'package:demo/model/ys_item_bean.dart';
 import 'package:demo/model/ys_list_bean.dart';
 import 'package:demo/network/manager/xx_network.dart';
+import 'package:demo/page/root/app.dart';
 import 'package:demo/slice/ys_filter_picker.dart';
 import 'package:demo/slice/ys_wrap_filter.dart';
 import 'package:demo/slice/ys_wrap_multi_filter.dart';
@@ -219,7 +220,11 @@ class _YuesaoListPageState extends State<YuesaoListPage>
   /// 等级筛选， 多选的
   void filterLevelIndexTap(List<int> indexArr) {
     this.levelBeanList =  indexArr.map((e) => this.configBean.levelYusaoArr[e]).toList();
+  }
 
+  /* 点击进入育婴师详情 */
+  void ysItemDidTap(YsItemBean item) {
+    App.navigationTo(context, PageRoutes.ysDetailPage);
   }
 
   @override
@@ -262,7 +267,7 @@ class _YuesaoListPageState extends State<YuesaoListPage>
                         service: "${item.service}",
                         showCancel: false,
                       ),
-                      onTapUp: (TapUpDetails detail) {},
+                      onTapUp: (TapUpDetails detail) => this.ysItemDidTap(item),
                     ),
                   );
                 },

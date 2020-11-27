@@ -11,7 +11,7 @@ class YsLevel {
       case '4': return "四星月嫂"; break;
       case '5': return "五星月嫂"; break;
       case '6': return "六星月嫂"; break;
-      case '7': return "金牌星月嫂"; break;
+      case '7': return "金牌月嫂"; break;
       case '8': return "月子管家"; break;
       case '11': return "铜牌月子管家"; break;
       case '12': return "银牌月子管家"; break;

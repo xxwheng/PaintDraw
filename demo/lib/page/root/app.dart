@@ -25,10 +25,18 @@ class PageRoutes {
   /* 月嫂列表 */
   static String ysListPage = "/page/yuesao/ys_list";
 
+  /* 育婴师列表 */
+  static String yyListPage = "/page/yuying/yy_list";
+
+  /* 月嫂详情 */
+  static String ysDetailPage = "/page/yuesao/ys_detail";
+
   static void configFluroRoutes(FluroRouter router) {
     router.define(tabBarController, handler: tabBarHandler);
     router.define(searchArticle, handler: searchArticleHandler);
     router.define(myCollect, handler: myCollectPageHandler);
     router.define(ysListPage, handler: ysListPageHandler);
+    router.define(ysDetailPage, handler: ysDetailPageHandler);
+    router.define(yyListPage, handler: yuyingListPageHandler);
   }
 }

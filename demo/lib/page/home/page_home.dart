@@ -58,6 +58,9 @@ class _PageHomeState extends State<PageHome> {
       case "1":
         App.navigationTo(context, PageRoutes.ysListPage);
         break;
+      case "4":
+        App.navigationTo(context, PageRoutes.yyListPage);
+        break;
       default:
         break;
     }
