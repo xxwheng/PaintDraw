@@ -3,10 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-/* 规则等边多边形 */
-class EquilateralPolygonWidget extends StatelessWidget {
-  /* n边形 */
-  final int sideNum;
+/* 不规则多边形 */
+class IrregularPolygonWidget extends StatelessWidget {
+  /* 各顶点距离中心值(0-1),至少三个 */
+  final List<double> values;
   /* 整体控件大小 */
   final double size;
   /* 填充颜色 */
@@ -14,14 +14,14 @@ class EquilateralPolygonWidget extends StatelessWidget {
   /* 顶点开始方位 1 顶部 、  2 右边  、  3 下边  、  4 左边 */
   final int startIndex;
 
-  EquilateralPolygonWidget({Key key, this.sideNum, this.size, this.color, this.startIndex}): super(key: key);
+  IrregularPolygonWidget({Key key, this.values, this.size, this.color, this.startIndex}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size(375, 375),
-      painter: EquilateralPolygonPainter(
-          sideNum: sideNum == null || sideNum < 3 ? 3 : sideNum,
+      painter: IrregularPolygonPainter(
+          values: values == null || values.length < 3 ? [1,1,1] : values,
           width: size ?? 100,
           fillColor: color ?? Colors.red,
           beginPoint: this.startIndex ?? 1
@@ -31,15 +31,15 @@ class EquilateralPolygonWidget extends StatelessWidget {
 }
 
 /* 等边多边形绘制 */
-class EquilateralPolygonPainter extends CustomPainter {
+class IrregularPolygonPainter extends CustomPainter {
 
-  EquilateralPolygonPainter({Key key, this.sideNum, this.width, this.fillColor, this.beginPoint});
+  IrregularPolygonPainter({Key key, this.values, this.width, this.fillColor, this.beginPoint});
 
   /* 整体宽高 */
   double width;
 
-  /* 几边形 */
-  int sideNum;
+  /* 各顶点距离中心值 */
+  List<double> values;
 
   /* 填充颜色 */
   Color fillColor;
@@ -59,7 +59,7 @@ class EquilateralPolygonPainter extends CustomPainter {
 
   /* 初始化数据 */
   void initData() {
-    _angle = 360.0 / sideNum;
+    _angle = 360.0 / values.length;
     _r = width / 2;
     _paint = Paint();
   }
@@ -81,31 +81,19 @@ class EquilateralPolygonPainter extends CustomPainter {
     var _path = Path();
     // 1 顶部 、  2 右边  、  3 下边  、  4 左边
     switch (beginPoint) {
-      case 1: _path.moveTo(_r, 0); break;
-      case 2: _path.moveTo(_r*2, _r); break;
-      case 3: _path.moveTo(_r, _r*2); break;
-      case 4: _path.moveTo(0, _r); break;
-      default: _path.moveTo(_r, 0); break;
+      case 1: _path.moveTo(_r, _r-_r*values[0]); break;
+      case 2: _path.moveTo(_r+_r*values[0], _r); break;
+      case 3: _path.moveTo(_r, _r+_r*values[0]); break;
+      case 4: _path.moveTo(_r-_r*values[0], _r); break;
+      default: _path.moveTo(_r, _r-_r*values[0]); break;
     }
 
-
-    var pointsList = this.circleSidePoints(beginPoint);
-
-    pointsList.forEach((element) {
+    this.circleSidePoints(beginPoint).forEach((element) {
       print(element);
-      _path.lineTo(element.dx, element.dy);
+      _path.arcToPoint(element);//.lineTo(element.dx, element.dy);
     });
     _path.close();
     canvas.drawPath(_path, _paint);
-
-    _paint.style = PaintingStyle.stroke;
-    _paint.color = Colors.white;
-    var _linePath = Path();
-    pointsList.forEach((element) {
-      _linePath.moveTo(_r, _r);
-      _linePath.lineTo(element.dx, element.dy);
-      canvas.drawPath(_linePath, _paint);
-    });
   }
 
 
@@ -123,22 +111,22 @@ class EquilateralPolygonPainter extends CustomPainter {
   * */
   List<Offset> circleSidePoints(int index) {
     List<Offset> list= [];
-    for (var i = 0; i < sideNum; i++) {
+    for (var i = 0; i < values.length; i++) {
       Offset point;
       switch (index) {
         case 1:
-          point = Offset(_r + sin(angleSp(i)) * _r, _r - cos(angleSp(i)) * _r);
+          point = Offset(_r + sin(angleSp(i)) * _r * values[i], _r - cos(angleSp(i)) * _r * values[i]);
           break;
         case 2:
-          point = Offset(_r + cos(angleSp(i)) * _r, _r + sin(angleSp(i)) * _r);
+          point = Offset(_r + cos(angleSp(i)) * _r * values[i], _r + sin(angleSp(i)) * _r * values[i]);
           break;
         case 3:
-          point = Offset(_r - sin(angleSp(i)) * _r, _r + cos(angleSp(i)) * _r);
+          point = Offset(_r - sin(angleSp(i)) * _r * values[i], _r + cos(angleSp(i)) * _r * values[i]);
           break;
         case 4:
-          point = Offset(_r - cos(angleSp(i)) * _r, _r - sin(angleSp(i)) * _r);
+          point = Offset(_r - cos(angleSp(i)) * _r * values[i], _r - sin(angleSp(i)) * _r * values[i]);
           break;
-        default: point = Offset(_r + sin(angleSp(i)) * _r, _r - cos(angleSp(i)) * _r);
+        default: point = Offset(_r + sin(angleSp(i)) * _r * values[i], _r - cos(angleSp(i)) * _r * values[i]);
       }
       list.add(point);
     }
